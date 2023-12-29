@@ -9,27 +9,7 @@
  */
 
 
- //install function that creates the table upexi_ns_wc_refund where the options and credentials will be stored
-function upexi_ns_wc_refund_install() {
-    global $wpdb;
-    $table_name = $wpdb->prefix . 'upexi_ns_wc_refund';
-    $charset_collate = $wpdb->get_charset_collate();
-    $sql = "CREATE TABLE $table_name (
-        upexi_ns_wc_refund_options varchar(255) NOT NULL
-    ) $charset_collate;";
-    require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-    dbDelta( $sql );
-}
-register_activation_hook( __FILE__, 'upexi_ns_wc_refund_install' );
-
-//uninstall function to drop the table upexi_ns_wc_refund
-function upexi_ns_wc_refund_uninstall() {
-    global $wpdb;
-    $table_name = $wpdb->prefix . 'upexi_ns_wc_refund';
-    $sql = "DROP TABLE IF EXISTS $table_name";
-    $wpdb->query($sql);
-}
-register_deactivation_hook( __FILE__, 'upexi_ns_wc_refund_uninstall' );
+define('NETSUITE_ENDPOINT', 'https://netsuite.upexi.com/api/refund');
 
 //add the settings link to the plugins page next to the activate/deactivate links
 function upexi_ns_wc_refund_add_settings_link( $links ) {
@@ -58,5 +38,5 @@ function upexi_ns_wc_refund_options_page() {
     include(plugin_dir_path(__FILE__) . 'upexi-ns-wc-refund-settings.php');
 }
 
-
+include(plugin_dir_path(__FILE__) . 'upexi-ns-wc-refund-controller.php');
 
