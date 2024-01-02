@@ -15,9 +15,15 @@ function upexi_ns_wc_refund_processed($order_id, $refund_id) {
     $refund = wc_get_order($refund_id);
     // Get all the refund meta data
     $refund_data = $refund->get_data();
-    // Convert order data and refund data to readable string and error log
-    error_log('Order: ' . print_r($order_data, true));
-    error_log('Refund: ' . print_r($refund_data, true));
+
+    //convert all of this data into JSON
+    $order_data = json_encode($order_data);
+    $refund_data = json_encode($refund_data);
+
+
+
+    error_log('Order: ' . $order_data);
+    error_log('Refund: ' . $refund_data);
 }
 
 
