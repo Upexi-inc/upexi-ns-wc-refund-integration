@@ -6,7 +6,8 @@
 // Using the woocommerce_order_refunded hook, we can trigger a function
 add_action('woocommerce_order_refunded', 'upexi_ns_wc_refund_processed', 10, 2);
 
-function upexi_ns_wc_refund_processed($order_id, $refund_id) {
+function upexi_ns_wc_refund_processed($order_id, $refund_id)
+{
     // Get the order object
     $order = wc_get_order($order_id);
     // Get all the order meta data
@@ -16,14 +17,20 @@ function upexi_ns_wc_refund_processed($order_id, $refund_id) {
     // Get all the refund meta data
     $refund_data = $refund->get_data();
 
-    //convert all of this data into JSON
-    $order_data = json_encode($order_data);
-    $refund_data = json_encode($refund_data);
+    // Prepare the body data
+    $body = json_encode(array('order' => $order_data, 'refund' => $refund_data));
 
-
-
-    error_log('Order: ' . $order_data);
-    error_log('Refund: ' . $refund_data);
+    // Set up the POST request
+    $response = wp_remote_post(REFUND_ENDPOINT, array(
+        'method' => 'POST',
+        'timeout' => 45,
+        'redirection' => 5,
+        'httpversion' => '1.0',
+        'blocking' => true,
+        'headers' => array('Content-Type' => 'application/json'),
+        'body' => $body,
+        'cookies' => array(),
+    ));
 }
 
 

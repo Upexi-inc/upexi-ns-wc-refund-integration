@@ -9,7 +9,7 @@
  */
 
 
-define('NETSUITE_ENDPOINT', 'https://netsuite.upexi.com/api/refund');
+define('REFUND_ENDPOINT', 'http://subscriptions.local/endpoint.php');
 
 //add the settings link to the plugins page next to the activate/deactivate links
 function upexi_ns_wc_refund_add_settings_link( $links ) {
